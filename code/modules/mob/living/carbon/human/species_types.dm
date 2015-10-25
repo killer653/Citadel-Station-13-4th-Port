@@ -3,13 +3,10 @@
 */
 
 /datum/species/human
-	name = "Human"
+	name = "human"
 	id = "human"
-	default_color = "FFFFFF"
 	roundstart = 1
-	specflags = list(EYECOLOR,HAIR,FACEHAIR,LIPS)
-	mutant_bodyparts = list("tail_human", "ears")
-	default_features = list("mcolor" = "FFF", "tail_human" = "None", "ears" = "None")
+	//specflags = list(EYECOLOR,HAIR,FACEHAIR,LIPS)
 	use_skintones = 1
 
 /datum/species/human/qualifies_for_rank(rank, list/features)
@@ -60,8 +57,8 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	default_color = "00FF00"
 	roundstart = 1
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
-	mutant_bodyparts = list("tail_lizard", "snout", "spines", "horns", "frills", "body_markings")
-	default_features = list("mcolor" = "0F0", "tail" = "Smooth", "snout" = "Round", "horns" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None")
+	//mutant_bodyparts = list("tail_lizard", "snout", "spines", "horns", "frills", "body_markings")
+	//default_features = list("mcolor" = "0F0", "tail" = "Smooth", "snout" = "Round", "horns" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None")
 	attack_verb = "slash"
 	attack_sound = 'sound/weapons/slash.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
@@ -85,8 +82,8 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 
 /datum/species/lizard/handle_speech(message)
 	// jesus christ why
-	if(copytext(message, 1, 2) != "*")
-		message = replacetext(message, "s", "sss")
+	//if(copytext(message, 1, 2) != "*")
+	//	message = replacetext(message, "s", "sss")
 
 	return message
 

@@ -351,7 +351,7 @@ datum
 								var/datum/dna/Mdna=M.has_dna()
 								Mdna.uni_identity = setblock(Mdna.uni_identity, DNA_GENDER_BLOCK, construct_block((M.gender!=MALE)+1, 2))
 							M<<"You now have boobs."
-							M.updateappearance()
+							//M.updateappearance()
 				else
 					cnt_digested=min(1,cnt_digested)
 				holder.remove_reagent(src.id, 1)
@@ -385,7 +385,7 @@ datum
 								var/datum/dna/Mdna=M.has_dna()
 								Mdna.uni_identity = setblock(Mdna.uni_identity, DNA_GENDER_BLOCK, construct_block((M.gender!=MALE)+1, 2))
 							M<<"You no longer have boobs."
-							M.updateappearance()
+							//M.updateappearance()
 				else
 					cnt_digested=min(1,cnt_digested)
 				holder.remove_reagent(src.id, 1)

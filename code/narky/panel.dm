@@ -573,7 +573,7 @@ obj/vore_preferences
 			if(target.has_dna())
 				var/mob/living/carbon/C=target
 				C.dna.taur=!C.dna.taur
-				target.updateappearance
+			//	updateappearance
 			else
 				target<<"Not going to work."
 
