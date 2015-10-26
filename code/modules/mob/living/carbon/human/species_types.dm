@@ -9,6 +9,7 @@
 	//specflags = list(EYECOLOR,HAIR,FACEHAIR,LIPS)
 	use_skintones = 1
 
+/*
 /datum/species/human/qualifies_for_rank(rank, list/features)
 	if(!config.mutant_humans) //No mutie scum here
 		return 1
@@ -29,7 +30,7 @@
 		return 0
 	if(rank == "Quartermaster") //QM is not contained in command_positions but we still want to bar mutants from it.
 		return 0
-	return 1
+	return 1*/
 
 
 /datum/species/human/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)

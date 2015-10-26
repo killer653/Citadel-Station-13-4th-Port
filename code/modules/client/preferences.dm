@@ -27,7 +27,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	var/ckey = "null"
 	var/path
 	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
-	var/max_save_slots = 3
+	var/max_save_slots = 6
 
 	//non-preference stuff
 	var/muted = 0
@@ -897,6 +897,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 						pref_species = new newtype()
 						//if(mutant_color == "#000")
 						//	mutant_color = pref_species.default_color
+
 				if("mutant_color")
 					var/new_mutantcolor = input(user, "Choose your character's alien/mutant color:", "Character Preference") as color|null
 					if(new_mutantcolor)
@@ -1180,6 +1181,31 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	character.gender = gender
 	character.age = age
 
+	//character.dna.mutant_color = mutant_color
+	//character.update_mutcolor()
+	if(mutant_tail != "none" && config.mutant_races)
+		character.dna.mutanttail = mutant_tail
+	if(mutant_wing != "none" && config.mutant_races)
+		character.dna.mutantwing = mutant_wing
+		character.dna.wingcolor=wingcolor
+	if(be_taur)
+		character.dna.taur=1
+	character.dna.special_color = special_color
+	character.dna.cock=p_cock
+	character.dna.vagina=p_vagina
+
+
+	character.vore_banned_methods=vore_banned_methods
+	character.vore_extra_bans=vore_extra_bans
+	character.vore_ability=vore_ability
+	if(character_size!="normal")
+		if(character_size=="small")
+			character.sizeplay_set(SIZEPLAY_MICRO)
+		else if(character_size=="tiny")
+			character.sizeplay_set(SIZEPLAY_TINY)
+		else
+			character.sizeplay_set(SIZEPLAY_MACRO)
+
 	character.eye_color = eye_color
 	character.hair_color = hair_color
 	character.facial_hair_color = facial_hair_color
@@ -1202,29 +1228,6 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	else
 		chosen_species = /datum/species/human
 	character.set_species(chosen_species, icon_update=0)
-	//character.dna.mutant_color = mutant_color
-	//character.update_mutcolor()
-	if(mutant_tail != "none" && config.mutant_races)
-		character.dna.mutanttail = mutant_tail
-	if(mutant_wing != "none" && config.mutant_races)
-		character.dna.mutantwing = mutant_wing
-		character.dna.wingcolor=wingcolor
-	if(be_taur)
-		character.dna.taur=1
-	character.dna.special_color = special_color
-	character.dna.cock=p_cock
-	character.dna.vagina=p_vagina
-
-	character.vore_banned_methods=vore_banned_methods
-	character.vore_extra_bans=vore_extra_bans
-	character.vore_ability=vore_ability
-	if(character_size!="normal")
-		if(character_size=="small")
-			character.sizeplay_set(SIZEPLAY_MICRO)
-		else if(character_size=="tiny")
-			character.sizeplay_set(SIZEPLAY_TINY)
-		else
-			character.sizeplay_set(SIZEPLAY_MACRO)
 
 	if(icon_updates)
 		character.update_body()

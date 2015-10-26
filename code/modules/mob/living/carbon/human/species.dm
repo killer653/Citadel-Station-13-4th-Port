@@ -54,7 +54,7 @@
 	var/darksight = 2
 
 	// species flags. these can be found in flags.dm
-	var/list/specflags = list()
+	var/list/specflags = list(EYECOLOR,HAIR,FACEHAIR,LIPS)
 
 	var/attack_verb = "punch"	// punch-specific attack verb
 	var/sound/attack_sound = 'sound/weapons/punch1.ogg'
@@ -123,9 +123,9 @@
 
 	var/image/standing
 
-	var/g = (H.gender == FEMALE) ? "f" : "m"
+	//var/g = (H.gender == FEMALE) ? "f" : "m"
 
-	if((MUTCOLORS in specflags) || use_skintones)
+	/*if((MUTCOLORS in specflags) || use_skintones)
 		var/image/spec_base
 		var/icon_state_string = "[id]_"
 
@@ -147,7 +147,7 @@
 		else
 			spec_base.color = forced_colour
 
-		standing = spec_base
+		standing = spec_base*/
 
 	if(standing)
 		H.overlays_standing[SPECIES_LAYER]	+= standing
@@ -223,6 +223,9 @@
 	H.remove_overlay(BODY_LAYER)
 
 	var/list/standing	= list()
+
+	if(id!="human")
+		standing += generate_colour_icon('icons/mob/human.dmi',"[H.base_icon_state]_s",H.dna.special_color,add_layer=-BODY_LAYER,overlay_only=1)
 
 	handle_mutant_bodyparts(H)
 

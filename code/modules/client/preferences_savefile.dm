@@ -110,7 +110,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["chat_toggles"]		>> chat_toggles
 	S["toggles"]			>> toggles
 	S["ghost_form"]			>> ghost_form
-	S["preferred_map"]		>> preferred_map
+	//S["preferred_map"]		>> preferred_map
 
 	//try to fix any outdated data if necessary
 	if(needs_update >= 0)
@@ -144,7 +144,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["toggles"]			<< toggles
 	S["chat_toggles"]		<< chat_toggles
 	S["ghost_form"]			<< ghost_form
-	S["preferred_map"]		<< preferred_map
+	//S["preferred_map"]		<< preferred_map
 
 	return 1
 
