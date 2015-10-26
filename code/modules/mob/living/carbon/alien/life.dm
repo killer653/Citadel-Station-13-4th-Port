@@ -64,3 +64,12 @@
 /mob/living/carbon/alien/CheckStamina()
 	setStaminaLoss(max((staminaloss - 2), 0))
 	return
+
+/mob/living/carbon/alien/handle_stomach()
+	spawn(0)
+		for(var/mob/living/M in stomach_contents)
+			if(M.loc != src)
+				stomach_contents.Remove(M)
+				continue
+		for(var/datum/vore_organ/organ in src.vore_organ_list())
+			organ.digest()
