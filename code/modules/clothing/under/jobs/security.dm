@@ -65,6 +65,12 @@
 	item_state = "bl_suit"
 	item_color = "hosalt"
 
+/obj/item/clothing/under/rank/security/commissar
+	name = "Commissar tunic"
+	desc = "A stylish and protective tunic to give you foes fear while you serve the Emperor."
+	icon_state = "commissar"
+	item_state = "commissar"
+
 /*
  * Navy uniforms
  */
