@@ -13,6 +13,15 @@
 	gib_type = /obj/effect/decal/cleanable/blood/gibs
 	unique_name = 1
 
+/mob/living/carbon/monkey/handle_stomach()
+	spawn(0)
+		for(var/mob/living/M in stomach_contents)
+			if(M.loc != src)
+				stomach_contents.Remove(M)
+				continue
+		for(var/datum/vore_organ/organ in src.vore_organ_list())
+			organ.digest()
+
 /mob/living/carbon/monkey/New()
 	verbs += /mob/living/proc/mob_sleep
 	verbs += /mob/living/proc/lay_down

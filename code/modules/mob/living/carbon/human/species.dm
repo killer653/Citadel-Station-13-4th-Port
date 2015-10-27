@@ -54,7 +54,7 @@
 	var/darksight = 2
 
 	// species flags. these can be found in flags.dm
-	var/list/specflags = list()
+	var/list/specflags = list(EYECOLOR,HAIR,FACEHAIR,LIPS)
 
 	var/attack_verb = "punch"	// punch-specific attack verb
 	var/sound/attack_sound = 'sound/weapons/punch1.ogg'
@@ -123,9 +123,9 @@
 
 	var/image/standing
 
-	var/g = (H.gender == FEMALE) ? "f" : "m"
+	//var/g = (H.gender == FEMALE) ? "f" : "m"
 
-	if((MUTCOLORS in specflags) || use_skintones)
+	/*if((MUTCOLORS in specflags) || use_skintones)
 		var/image/spec_base
 		var/icon_state_string = "[id]_"
 
@@ -147,7 +147,7 @@
 		else
 			spec_base.color = forced_colour
 
-		standing = spec_base
+		standing = spec_base*/
 
 	if(standing)
 		H.overlays_standing[SPECIES_LAYER]	+= standing
@@ -224,6 +224,9 @@
 
 	var/list/standing	= list()
 
+	if(id!="human")
+		standing += generate_colour_icon('icons/mob/human.dmi',"[H.base_icon_state]_s",H.dna.special_color,add_layer=-BODY_LAYER,overlay_only=1)
+
 	handle_mutant_bodyparts(H)
 
 	// lipstick
@@ -256,6 +259,57 @@
 		var/datum/sprite_accessory/socks/U3 = socks_list[H.socks]
 		if(U3)
 			standing	+= image("icon"=U3.icon, "icon_state"="[U3.icon_state]_s", "layer"=-BODY_LAYER)
+
+	//Underwear
+	if(H.dna&&H.dna.taur&&!kpcode_cantaur(id))H.dna.taur=0//VERY BAD TEMP FIX
+	//if(H.dna&&H.dna.taur&&H.dna.naga)H.dna.taur=0
+	if(H.underwear&&H.underwear!="Nude"&&H.underwear_active&& (!H.dna||!H.dna.taur) )
+		var/datum/sprite_accessory/underwear/U = underwear_list[H.underwear]
+		if(U)
+			standing	+= image("icon"=U.icon, "icon_state"="[U.icon_state]_s", "layer"=-BODY_LAYER)
+
+	else if((!H.dna || !H.dna.taur) && (!H.wear_suit || !(H.wear_suit.flags_inv&HIDEJUMPSUIT)) && (!H.w_uniform||!(H.w_uniform.body_parts_covered&GROIN)) )
+		if(H.dna&&H.dna.cock)
+			//cock codes here
+			var/list/cock=H.dna.cock
+			var/cock_mod=0
+			var/cock_type=cock["type"]
+			if(cock["has"]==H.dna.COCK_NORMAL)cock_mod="n"
+			else if(cock["has"]==H.dna.COCK_HYPER)cock_mod="h"
+			else if(cock["has"]==H.dna.COCK_DOUBLE)cock_mod="d"
+			if(cock_mod)
+				var/icon/chk=new/icon('icons/mob/cock.dmi')
+				var/list/available_states=chk.IconStates()
+				if(available_states.Find("[cock_type]_c_[cock_mod]"))
+					var/image/cockimtmp	= image("icon"='icons/mob/cock.dmi', "icon_state"="[cock_type]_c_[cock_mod]", "layer"=-BODY_LAYER)
+					var/new_color = "#" + cock["color"]
+					cockimtmp.color = new_color
+					standing += cockimtmp
+				if(available_states.Find("[cock_type]_s_[cock_mod]"))
+					var/image/cockimtmp	= image("icon"='icons/mob/cock.dmi', "icon_state"="[cock_type]_s_[cock_mod]", "layer"=-BODY_LAYER)
+					if(H.dna.special_color[2])
+						var/new_color = "#" + H.dna.special_color[2]
+						cockimtmp.color = new_color
+					standing += cockimtmp
+
+	if(H.dna&&H.dna.taur)
+
+		/*var/taurtype="horse"
+		if(dna.mutantrace=="narky")
+			taurtype="narky"
+		var/image/taurimtmp	= image("icon"='icons/mob/special/taur.dmi', "icon_state"="[taurtype]_overlay", "pixel_x"=-16, "layer"=-BODY_LAYER)
+		*/
+		var/taur_state="[kpcode_cantaur(H.dna.mutantrace())]_overlay"
+		if(H.vore_womb_datum.has_people()||H.vore_stomach_datum.has_people())
+			taur_state+="_f"
+		standing += generate_colour_icon('icons/mob/special/taur.dmi',"[taur_state]",H.dna.special_color,offset_x=-16,add_layer=-BODY_LAYER)
+	/*
+	if(H.dna&&H.dna.naga)
+		standing += generate_colour_icon('icons/mob/special/naga.dmi',"body",H.dna.special_color,offset_x=-16,offset_y=-16,add_layer=-BODY_LAYER)
+
+	if(H.test_var_to_remove)
+		standing += generate_colour_icon('icons/mob/special/test.dmi',"",H.dna.special_color,add_layer=-BODY_LAYER)
+		*/
 
 	if(standing.len)
 		H.overlays_standing[BODY_LAYER] = standing

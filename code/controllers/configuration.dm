@@ -39,6 +39,8 @@
 	var/fps = 10
 	var/Tickcomp = 0
 	var/allow_holidays = 0				//toggles whether holiday-specific content should be used
+	var/joblist = 0
+	var/paniclist = 0
 
 	var/hostedby = null
 	var/respawn = 1
@@ -365,6 +367,10 @@
 					config.maprotatechancedelta = text2num(value)
 				else
 					diary << "Unknown setting in configuration: '[name]'"
+
+		else if(type == "whitelist")
+			whitelist_keys.Add(name)
+
 
 		else if(type == "game_options")
 			switch(name)

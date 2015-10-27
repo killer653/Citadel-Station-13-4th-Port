@@ -72,51 +72,51 @@
 		L[DNA_FACIAL_HAIR_COLOR_BLOCK] = sanitize_hexcolor(H.facial_hair_color)
 		L[DNA_SKIN_TONE_BLOCK] = construct_block(skin_tones.Find(H.skin_tone), skin_tones.len)
 		L[DNA_EYE_COLOR_BLOCK] = sanitize_hexcolor(H.eye_color)
-			if(H.heterochromia)
-				L[DNA_EYE_COLOR_TWO_BLOCK] = sanitize_hexcolor(H.heterochromia)
-				L[DNA_EYE_COLOR_SWITCH_BLOCK] = construct_block(2,2)
-			else
-				L[DNA_EYE_COLOR_TWO_BLOCK] = sanitize_hexcolor(H.eye_color)
-				L[DNA_EYE_COLOR_SWITCH_BLOCK] = construct_block(1,2)
-			var/colour_switch=0
-			if(special_color[1])
-				L[DNA_COLOR_ONE_BLOCK] = sanitize_hexcolor(special_color[1])
-				colour_switch+=1
-			else
-				L[DNA_COLOR_ONE_BLOCK] = random_string(DNA_BLOCK_SIZE,hex_characters)
-			if(special_color[2])
-				L[DNA_COLOR_TWO_BLOCK] = sanitize_hexcolor(special_color[2])
-				colour_switch+=2
-			else
-				L[DNA_COLOR_TWO_BLOCK] = random_string(DNA_BLOCK_SIZE,hex_characters)
-			if(special_color[3])
-				L[DNA_COLOR_THR_BLOCK] = sanitize_hexcolor(special_color[3])
-				colour_switch+=4
-			else
-				L[DNA_COLOR_THR_BLOCK] = random_string(DNA_BLOCK_SIZE,hex_characters)
+		if(H.heterochromia)
+			L[DNA_EYE_COLOR_TWO_BLOCK] = sanitize_hexcolor(H.heterochromia)
+			L[DNA_EYE_COLOR_SWITCH_BLOCK] = construct_block(2,2)
+		else
+			L[DNA_EYE_COLOR_TWO_BLOCK] = sanitize_hexcolor(H.eye_color)
+			L[DNA_EYE_COLOR_SWITCH_BLOCK] = construct_block(1,2)
+		var/colour_switch=0
+		if(special_color[1])
+			L[DNA_COLOR_ONE_BLOCK] = sanitize_hexcolor(special_color[1])
+			colour_switch+=1
+		else
+			L[DNA_COLOR_ONE_BLOCK] = random_string(DNA_BLOCK_SIZE,hex_characters)
+		if(special_color[2])
+			L[DNA_COLOR_TWO_BLOCK] = sanitize_hexcolor(special_color[2])
+			colour_switch+=2
+		else
+			L[DNA_COLOR_TWO_BLOCK] = random_string(DNA_BLOCK_SIZE,hex_characters)
+		if(special_color[3])
+			L[DNA_COLOR_THR_BLOCK] = sanitize_hexcolor(special_color[3])
+			colour_switch+=4
+		else
+			L[DNA_COLOR_THR_BLOCK] = random_string(DNA_BLOCK_SIZE,hex_characters)
 			L[DNA_COLOR_SWITCH_BLOCK] = construct_block(colour_switch+1,DNA_COLOR_SWITCH_MAX+1)
 			/*if(species_list[mutantrace])
 				L[DNA_MUTANTRACE_BLOCK] = construct_block(species_list.Find(mutantrace), species_list.len+1)
 			else
 				L[DNA_MUTANTRACE_BLOCK] = construct_block(species_list.len+1, species_list.len+1)*/
 			L[DNA_MUTANTRACE_BLOCK] = generate_race_block()
-			if(mutant_tails.Find(mutanttail))
-				L[DNA_MUTANTTAIL_BLOCK] = construct_block(mutant_tails.Find(mutanttail), mutant_tails.len+1)
-			else
-				L[DNA_MUTANTTAIL_BLOCK] = construct_block(mutant_tails.len+1, mutant_tails.len+1)
-			if(mutant_wings.Find(mutantwing))
-				L[DNA_MUTANTWING_BLOCK] = construct_block(mutant_wings.Find(mutantwing), mutant_wings.len+1)
-			else
-				L[DNA_MUTANTWING_BLOCK] = construct_block(mutant_wings.len+1, mutant_wings.len+1)
-			L[DNA_WINGCOLOR_BLOCK] = sanitize_hexcolor(wingcolor)
-			L[DNA_TAUR_BLOCK] = construct_block(taur+1, 2)
+		if(mutant_tails.Find(mutanttail))
+			L[DNA_MUTANTTAIL_BLOCK] = construct_block(mutant_tails.Find(mutanttail), mutant_tails.len+1)
+		else
+			L[DNA_MUTANTTAIL_BLOCK] = construct_block(mutant_tails.len+1, mutant_tails.len+1)
+		if(mutant_wings.Find(mutantwing))
+			L[DNA_MUTANTWING_BLOCK] = construct_block(mutant_wings.Find(mutantwing), mutant_wings.len+1)
+		else
+			L[DNA_MUTANTWING_BLOCK] = construct_block(mutant_wings.len+1, mutant_wings.len+1)
+		L[DNA_WINGCOLOR_BLOCK] = sanitize_hexcolor(wingcolor)
+		L[DNA_TAUR_BLOCK] = construct_block(taur+1, 2)
 
-			var/cock_block=0
-			if(cock["has"])
-				cock_block+=1
-			if(vagina)
-				cock_block+=2
-			L[DNA_COCK_BLOCK] = construct_block(cock_block+1, 4)
+		var/cock_block=0
+		if(cock["has"])
+			cock_block+=1
+		if(vagina)
+			cock_block+=2
+		L[DNA_COCK_BLOCK] = construct_block(cock_block+1, 4)
 
 	for(var/i=1, i<=DNA_UNI_IDENTITY_BLOCKS, i++)
 		if(L[i])	. += L[i]

@@ -20,6 +20,7 @@
 #define FILE_DIR "icons/misc"
 #define FILE_DIR "icons/mob"
 #define FILE_DIR "icons/mob/inhands"
+#define FILE_DIR "icons/mob/special"
 #define FILE_DIR "icons/obj"
 #define FILE_DIR "icons/obj/assemblies"
 #define FILE_DIR "icons/obj/atmospherics"
