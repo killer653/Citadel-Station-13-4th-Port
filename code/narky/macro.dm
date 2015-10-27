@@ -45,7 +45,7 @@ var/const/SIZEPLAY_MACRO=4
 				//src.pixel_y=0
 				stable_matrix(get_matrix_norm(),0)
 				src.sizeplay_size=SIZEPLAY_NORMAL
-			src.updateappearance
+		//	src.updateappearance
 		sizeplay_shrink()
 			//if(!istype(src,/mob/living/carbon))
 			//	return

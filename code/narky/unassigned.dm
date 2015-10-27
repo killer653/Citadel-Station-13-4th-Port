@@ -204,7 +204,7 @@ var/const/VORE_SIZEDIFF_ANY=5
 					contents.Remove(M)
 					qdel(M)
 					digestion_count+=1
-					//updateappearance(owner)
+					//owner.updateappearance
 					owner.update_body()
 					continue //hopefully won't break much
 				if(oxygen)
@@ -299,7 +299,8 @@ var/const/VORE_SIZEDIFF_ANY=5
 		for(var/mob/living/relea in contents)
 			//message_admins("[owner.real_name] has released [relea.real_name] from [type]. Code [style].",owner,relea)
 			place_in_next(relea)
-		//updateappearance(owner)
+		//owner.updateappearance()
+		owner.update_body()
 		return 1
 
 	proc/add(var/mob/living/addit)
@@ -2094,7 +2095,8 @@ var/list/traitor_test_list = null
 	return
 /mob/proc/update_body()
 	if(istype(src,/mob/living/carbon))
-		src.updateappearance
+		//updateappearance(mutcolor_update=0)
+		src.update_body()
 /mob/living/kpcode_mob_offset()
 	if(istype(src,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H=src

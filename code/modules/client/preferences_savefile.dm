@@ -76,10 +76,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 				if(11)	underwear = "Ladies Kinky"
 				if(12)	underwear = "Tankini"
 				if(13)	underwear = "Nude"
-		if(!(pref_species in species_list))
+		//if(!(pref_species in species_list))
+		if(!(pref_species))
 			pref_species = new /datum/species/human()
 	return
-
 /datum/preferences/proc/load_path(ckey,filename="preferences.sav")
 	if(!ckey)	return
 	path = "data/player_saves/[copytext(ckey,1,2)]/[ckey]/[filename]"
@@ -96,6 +96,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(needs_update == -2)		//fatal, can't load any data
 		return 0
 
+	if(!S["species"] || !config.mutant_races)
+		S["species"]		<< new /datum/species/human()
+	//if(!S["mutant_color"] || S["mutant_color"] == "#000")
+	//	S["mutant_color"]	<< "#FFF"
+
 	//general preferences
 	S["ooccolor"]			>> ooccolor
 	S["lastchangelog"]		>> lastchangelog
@@ -105,7 +110,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["chat_toggles"]		>> chat_toggles
 	S["toggles"]			>> toggles
 	S["ghost_form"]			>> ghost_form
-	S["preferred_map"]		>> preferred_map
+	//S["preferred_map"]		>> preferred_map
 
 	//try to fix any outdated data if necessary
 	if(needs_update >= 0)
@@ -139,7 +144,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["toggles"]			<< toggles
 	S["chat_toggles"]		<< chat_toggles
 	S["ghost_form"]			<< ghost_form
-	S["preferred_map"]		<< preferred_map
+	//S["preferred_map"]		<< preferred_map
 
 	return 1
 
@@ -161,7 +166,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		return 0
 
 	//Species
-	var/species_name
+	/*var/species_name
 	S["species"]			>> species_name
 	if(config.mutant_races && species_name && (species_name in roundstart_species))
 		var/newtype = roundstart_species[species_name]
@@ -170,7 +175,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		pref_species = new /datum/species/human()
 
 	if(!S["features["mcolor"]"] || S["features["mcolor"]"] == "#000")
-		S["features["mcolor"]"]	<< "#FFF"
+		S["features["mcolor"]"]	<< "#FFF"*/
+
+	if(!S["species"] || !config.mutant_races)
+		S["species"]		<< new /datum/species/human()
+	//if(!S["mutant_color"] || S["mutant_color"] == "#000")
+	//	S["mutant_color"]	<< "#FFF"
 
 	//Character
 	S["OOC_Notes"]			>> metadata
@@ -204,6 +214,22 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["cyborg_name"]		>> custom_names["cyborg"]
 	S["religion_name"]		>> custom_names["religion"]
 	S["deity_name"]			>> custom_names["deity"]
+	S["species"]			>> pref_species
+
+	//Customs
+	S["mutant_tail"]		>> mutant_tail
+	S["mutant_wing"]		>> mutant_wing
+	S["wingcolor"]			>> wingcolor
+	//S["special_color_one"]	>> special_color_one
+	//S["special_color_two"]	>> special_color_two
+	S["special_color"]		>> special_color
+	S["be_taur"]			>> be_taur
+	S["vore_ability"]		>> vore_ability
+	S["vore_banned_methods"]>> vore_banned_methods
+	S["vore_extra_bans"]	>> vore_extra_bans
+	S["character_size"]		>> character_size
+	S["p_cock"]				>> p_cock
+	S["p_vagina"]			>> p_vagina
 
 	//Jobs
 	S["userandomjob"]		>> userandomjob
@@ -224,8 +250,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Sanitize
 	metadata		= sanitize_text(metadata, initial(metadata))
 	real_name		= reject_bad_name(real_name)
-	if(!features["mcolor"] || features["mcolor"] == "#000")
-		features["mcolor"] = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F")
+	//if(!(pref_species in species_list))
+	if(!(pref_species))
+		pref_species = new /datum/species/human()
+	//if(!mutant_color || mutant_color == "#000")
+	//	mutant_color = "#FFF"
 	if(!real_name)	real_name = random_unique_name(gender)
 	be_random_name	= sanitize_integer(be_random_name, 0, 1, initial(be_random_name))
 	be_random_body	= sanitize_integer(be_random_body, 0, 1, initial(be_random_body))
@@ -247,9 +276,27 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	hair_color			= sanitize_hexcolor(hair_color, 3, 0)
 	facial_hair_color			= sanitize_hexcolor(facial_hair_color, 3, 0)
 	eye_color		= sanitize_hexcolor(eye_color, 3, 0)
+	//if(eye_het)
+	//	eye_het		= sanitize_hexcolor(eye_het, 3, 0)
+	special_color	= sanitize_colour_list(special_color)
 	skin_tone		= sanitize_inlist(skin_tone, skin_tones)
 	backbag			= sanitize_integer(backbag, 1, backbaglist.len, initial(backbag))
-	features["mcolor"]	= sanitize_hexcolor(features["mcolor"], 3, 0)
+	mutant_tail 	= sanitize_text(mutant_tail, initial(mutant_tail))
+	mutant_wing 	= sanitize_text(mutant_wing, initial(mutant_wing))
+	wingcolor		= sanitize_hexcolor(wingcolor, 3, 0)
+	character_size 	= sanitize_text(character_size, initial(character_size))
+//	mutant_color	= sanitize_hexcolor(mutant_color, 3, 0)
+
+	vore_ability=sanitize_vore_list(vore_ability)
+	if(isnull(vore_banned_methods))vore_banned_methods=0
+	if(isnull(vore_extra_bans))vore_extra_bans=65535
+	if(isnull(p_vagina)) p_vagina=gender==FEMALE
+	if(isnull(p_cock))
+		p_cock=list("has"=gender==MALE,"type"="human","color"="900")
+
+	skin_tone		= sanitize_inlist(skin_tone, skin_tones)
+	backbag			= sanitize_integer(backbag, 1, backbaglist.len, initial(backbag))
+	/*features["mcolor"]	= sanitize_hexcolor(features["mcolor"], 3, 0)
 	features["tail_lizard"]	= sanitize_inlist(features["tail_lizard"], tails_list_lizard)
 	features["tail_human"] 	= sanitize_inlist(features["tail_human"], tails_list_human, "None")
 	features["snout"]	= sanitize_inlist(features["snout"], snouts_list)
@@ -257,7 +304,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["ears"]	= sanitize_inlist(features["ears"], ears_list, "None")
 	features["frills"] 	= sanitize_inlist(features["frills"], frills_list)
 	features["spines"] 	= sanitize_inlist(features["spines"], spines_list)
-	features["body_markings"] 	= sanitize_inlist(features["body_markings"], body_markings_list)
+	features["body_markings"] 	= sanitize_inlist(features["body_markings"], body_markings_list)*/
 
 	userandomjob	= sanitize_integer(userandomjob, 0, 1, initial(userandomjob))
 	job_civilian_high = sanitize_integer(job_civilian_high, 0, 65535, initial(job_civilian_high))
@@ -298,7 +345,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["socks"]				<< socks
 	S["backbag"]			<< backbag
 	S["species"]			<< pref_species.name
-	S["feature_mcolor"]					<< features["mcolor"]
+	/*S["feature_mcolor"]					<< features["mcolor"]
 	S["feature_lizard_tail"]			<< features["tail_lizard"]
 	S["feature_human_tail"]				<< features["tail_human"]
 	S["feature_lizard_snout"]			<< features["snout"]
@@ -306,13 +353,26 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_human_ears"]				<< features["ears"]
 	S["feature_lizard_frills"]			<< features["frills"]
 	S["feature_lizard_spines"]			<< features["spines"]
-	S["feature_lizard_body_markings"]	<< features["body_markings"]
+	S["feature_lizard_body_markings"]	<< features["body_markings"]*/
 	S["clown_name"]			<< custom_names["clown"]
 	S["mime_name"]			<< custom_names["mime"]
 	S["ai_name"]			<< custom_names["ai"]
 	S["cyborg_name"]		<< custom_names["cyborg"]
 	S["religion_name"]		<< custom_names["religion"]
 	S["deity_name"]			<< custom_names["deity"]
+	S["species"]			<< pref_species
+	//Custom
+	S["mutant_tail"]		<< mutant_tail
+	S["mutant_wing"]		<< mutant_wing
+	S["wingcolor"]			<< wingcolor
+	S["special_color"]		<< special_color
+	S["be_taur"]			<< be_taur
+	S["vore_ability"]		<< vore_ability
+	S["vore_banned_methods"]<< vore_banned_methods
+	S["vore_extra_bans"]	<< vore_extra_bans
+	S["character_size"]		<< character_size
+	S["p_cock"]				<< p_cock
+	S["p_vagina"]			<< p_vagina
 
 	//Jobs
 	S["userandomjob"]		<< userandomjob
