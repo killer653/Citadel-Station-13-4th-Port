@@ -71,6 +71,13 @@ datum
 			tail=1
 			attack_verb = "noms"
 			attack_sound = 'sound/weapons/bite.ogg'
+		corgi
+			name="corgi"
+			id="corgi"
+			say_mod ="yaps"
+			generic="canine"
+			adjective="corgalicious"
+			tail=1
 		corvid
 			name="corvid"
 			id="corvid"
@@ -294,7 +301,7 @@ datum
 			say_mod="nyars"
 			generic="narwhal"
 			adjective="fluffy"
-			restricted="kingpygmy"
+			restricted=2
 			tail=1
 			taur=1
 			attack_verb = "whack"
@@ -311,7 +318,7 @@ datum
 			generic="fox"
 			adjective="glowing"
 			tail=1
-			restricted="rebcom1807"
+			restricted=2
 		fly
 			//name="fly"
 			generic="insect"
@@ -495,7 +502,8 @@ proc/kpcode_get_adjective(var/mob/living/M)
 
 var/list/mutant_tails = list(
 	"none"=0,
-	"neko"="tajaran",
+	"tajaran"="tajaran",
+	"neko"="neko",
 	"dog"="lab",
 	"wolf"="wolf",
 	"fox"="fox",
