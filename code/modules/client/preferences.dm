@@ -234,13 +234,19 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 				dat += "<b>Species:</b> Human<BR>"
 
 			dat += "<b>Size:</b> <a href='?_src_=prefs;preference=character_size;task=input'>[character_size]</a><BR>"
-			dat += "<b>Vore:</b> <a href='?_src_=prefs;preference=vore_panel;task=input'>Panel</a><BR>"
+			dat += "<b>Vore Preferences:</b> <a href='?_src_=prefs;preference=vore_panel;task=input'>Open</a><BR>"
+			dat += "<h3>Wings</h3>"
+
+			dat += "<a href='?_src_=prefs;preference=mutant_wing;task=input'>[mutant_wing]</a><BR>"
+			dat += "<span style='border: 1px solid #161616; background-color: #[wingcolor];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=wingcolor;task=input'>Change</a><BR>"
 
 			dat += "<b>Blood Type:</b> [blood_type]<BR>"
 			dat += "<b>Underwear:</b><BR><a href ='?_src_=prefs;preference=underwear;task=input'>[underwear]</a><BR>"
 			dat += "<b>Undershirt:</b><BR><a href ='?_src_=prefs;preference=undershirt;task=input'>[undershirt]</a><BR>"
 			dat += "<b>Socks:</b><BR><a href ='?_src_=prefs;preference=socks;task=input'>[socks]</a><BR>"
 			dat += "<b>Backpack:</b><BR><a href ='?_src_=prefs;preference=bag;task=input'>[backbaglist[backbag]]</a><BR></td>"
+
+
 
 			if(pref_species.use_skintones)
 
