@@ -52,9 +52,16 @@
 	dna.species.spec_life(src) // for mutantraces
 
 
-/mob/living/carbon/human/calculate_affecting_pressure(pressure)
+/mob/living/carbon/human/calculate_affecting_pressure(var/pressure)
 	if((wear_suit && (wear_suit.flags & STOPSPRESSUREDMAGE)) && (head && (head.flags & STOPSPRESSUREDMAGE)))
 		return ONE_ATMOSPHERE
+
+	if(istype(loc, /mob/living/carbon/human))
+		return ONE_ATMOSPHERE || STOPSPRESSUREDMAGE
+
+	if(istype(loc, /mob/living/carbon/alien))
+		return ONE_ATMOSPHERE || STOPSPRESSUREDMAGE
+
 	else
 		return pressure
 
@@ -84,7 +91,7 @@
 				if(4)
 					emote("drool")
 				if(5)
-					say(pick("REMOVE SINGULARITY", "INSTLL TEG", "TURBIN IS BEST ENGIENE", "SOLIRS CAN POWER THE HOLE STATION ANEWAY"))
+					say(pick("REMOVE SINGULARITY", "INSTLL TEG", "TURBIN IS BEST ENGIENE", "SOLIRS CAN POWER THE HOLE STATION ANEWAY", "PUWAH OUT CALL SHRUTTLLLLEEEE!!!"))
 
 
 /mob/living/carbon/human/handle_mutations_and_radiation()
@@ -140,6 +147,11 @@
 //This proc returns a number made up of the flags for body parts which you are protected on. (such as HEAD, CHEST, GROIN, etc. See setup.dm for the full list)
 /mob/living/carbon/human/proc/get_heat_protection_flags(temperature) //Temperature is the temperature you're being exposed to.
 	var/thermal_protection_flags = 0
+	if(istype(loc, /mob/living/carbon/human))
+		return 1
+
+	if(istype(loc, /mob/living/carbon/alien))
+		return 1
 	//Handle normal clothing
 	if(head)
 		if(head.max_heat_protection_temperature && head.max_heat_protection_temperature >= temperature)
@@ -196,6 +208,7 @@
 //See proc/get_heat_protection_flags(temperature) for the description of this proc.
 /mob/living/carbon/human/proc/get_cold_protection_flags(temperature)
 	var/thermal_protection_flags = 0
+
 	//Handle normal clothing
 
 	if(head)
@@ -225,6 +238,12 @@
 		return 1 //Fully protected from the cold.
 
 	if(dna && COLDRES in dna.species.specflags)
+		return 1
+
+	if(istype(loc, /mob/living/carbon/human))
+		return 1
+
+	if(istype(loc, /mob/living/carbon/alien))
 		return 1
 
 	temperature = max(temperature, 2.7) //There is an occasional bug where the temperature is miscalculated in ares with a small amount of gas on them, so this is necessary to ensure that that bug does not affect this calculation. Space's temperature is 2.7K and most suits that are intended to protect against any cold, protect down to 2.0K.
