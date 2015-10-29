@@ -30,6 +30,7 @@
 	internal_organs += new /obj/item/organ/internal/appendix
 	internal_organs += new /obj/item/organ/internal/heart
 	internal_organs += new /obj/item/organ/internal/brain
+//	internal_organs += new /obj/item/organ/butt
 
 	for(var/obj/item/organ/internal/I in internal_organs)
 		I.Insert(src)
@@ -646,20 +647,20 @@
 					threatcount += 2
 
 	//Check for dresscode violations
-	if(istype(head, /obj/item/clothing/head/wizard) || istype(head, /obj/item/clothing/head/helmet/space/hardsuit/wizard))
-		threatcount += 2
+	if(istype(head, /obj/item/clothing/head/wizard) || istype(head, /obj/item/clothing/head/helmet/space/hardsuit/wizard) || istype(head, /obj/item/clothing/head/helmet/space/syndicate) || istype(head, /obj/item/clothing/head/helmet/space/hardsuit/syndi))
+		threatcount += 6
 
 	//Check for nonhuman scum
-	if(dna && dna.species.id && dna.species.id != "human")
-		threatcount += 1
+//	if(dna && dna.species.id && dna.species.id != "human")
+//		threatcount += 1
 
 	//Loyalty implants imply trustworthyness
 	if(isloyal(src))
-		threatcount -= 1
+		threatcount -= 2
 
 	//Agent cards lower threatlevel.
 	if(istype(idcard, /obj/item/weapon/card/id/syndicate))
-		threatcount -= 5
+		threatcount -= 2
 
 	return threatcount
 

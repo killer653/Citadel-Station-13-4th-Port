@@ -93,6 +93,7 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/rev38
 	unique_rename = 1
 	unique_reskin = 1
+	pin = /obj/item/device/firing_pin/implant/loyalty
 
 /obj/item/weapon/gun/projectile/revolver/detective/New()
 	..()

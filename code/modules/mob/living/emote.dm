@@ -6,6 +6,12 @@
 	if(stat)
 		return
 
+	var/verbs_use = pick_list("npc_chatter.txt","verbs_use")
+	var/verbs_touch = pick_list("npc_chatter.txt","verbs_touch")
+	var/nouns_insult = pick_list("npc_chatter.txt","nouns_insult")
+	var/nouns_body = pick_list("npc_chatter.txt","nouns_body")
+	var/adjective_insult = pick_list("npc_chatter.txt","adjective_insult")
+	var/curse_words = pick_list("npc_chatter.txt","curse_words")
 	var/param = null
 
 	if (findtext(act, "-", 1, null)) //Removes dashes for npcs "EMOTE-PLAYERNAME" or something like that, I ain't no AI coder. It's not for players. -Sum99
@@ -80,6 +86,133 @@
 			src.sleeping += 10 //Short-short nap
 			m_type = 1
 
+/*		if ("fart") //time for awful code
+			var/obj/item/organ/butt/B = null
+			B = locate() in src.internal_organs
+			if(!B)
+				src << "\red You don't have a butt!"
+				return
+			if(src.HasDisease(/datum/disease/assinspection))
+				src << "<span class='danger'>Your ass hurts too much.</span>"
+				return
+			for(var/mob/living/M in range(0)) //Bye ghost farts, you will be missed :'(
+				if(M != src)
+					visible_message("\red <b>[src]</b> farts in <b>[M]</b>'s face!")
+				else
+					continue
+			message = "<B>[src]</B> [pick(
+			"rears up and lets loose a fart of tremendous magnitude!",
+			"farts!",
+			"toots.",
+			"harvests methane from uranus at mach 3!",
+			"assists global warming!",
+			"farts and waves their hand dismissively.",
+			"farts and pretends nothing happened.",
+			"is a <b>farting</b> motherfucker!",
+			"<B><font color='red'>f</font><font color='blue'>a</font><font color='red'>r</font><font color='blue'>t</font><font color='red'>s</font></B>")]"
+			playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+			if(prob(12))
+				B = locate() in src.internal_organs
+				if(B)
+					src.internal_organs -= B
+					new /obj/item/organ/butt(src.loc)
+					new /obj/effect/decal/cleanable/blood(src.loc)
+				for(var/mob/living/M in range(0))
+					if(M != src)
+						visible_message("\red <b>[src]</b>'s ass hits <b>[M]</b> in the face!", "\red Your ass smacks <b>[M]</b> in the face!")
+						M.apply_damage(15,"brute","head")
+				visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
+		if("superfart") //how to remove ass
+			exception = 1
+			if (ticker.current_state == 3)//safety1
+				if(world.time < fartholdin)//safety2
+					src << "Your ass is not ready to blast."
+					return
+				else
+					if(cansuperfart)
+						var/obj/item/organ/butt/B = null
+						B = locate() in src.internal_organs
+						if(!B)
+							src << "\red You don't have a butt!"
+							return
+						else if(B)
+							src.internal_organs -= B
+						//src.butt = null
+						src.nutrition -= 500 //vv THIS CODE IS MELTING MY EYES AND I'M NOT ALLOWED TO FIX IT HELP vv
+						playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+						spawn(1)
+							playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+							spawn(1)
+								playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+								spawn(1)
+									playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+									spawn(1)
+										playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+										spawn(1)
+											playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+											spawn(1)
+												playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+												spawn(1)
+													playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+													spawn(1)
+														playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+														spawn(1)
+															playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+															spawn(5)
+																playsound(src.loc, 'sound/misc/fartmassive.ogg', 75, 1, 5)
+																new /obj/item/organ/butt(src.loc)
+																new /obj/effect/decal/cleanable/blood(src.loc)
+																if(src.HasDisease(/datum/disease/assinspection))
+																	src << "<span class='danger'>It hurts so much!</span>"
+																	apply_damage(50, BRUTE, "chest")
+																if(prob(76))
+																	for(var/mob/living/M in range(0))
+																		if(M != src)
+																			visible_message("\red <b>[src]</b>'s ass blasts <b>[M]</b> in the face!", "\red You ass blast <b>[M]</b>!")
+																			M.apply_damage(75,"brute","head")
+																		else
+																			continue
+																	visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
+																else if(prob(12))
+																	var/startx = 0
+																	var/starty = 0
+																	var/endy = 0
+																	var/endx = 0
+																	var/startside = pick(cardinal)
+
+																	switch(startside)
+																		if(NORTH)
+																			starty = src.loc
+																			startx = src.loc
+																			endy = 38
+																			endx = rand(41, 199)
+																		if(EAST)
+																			starty = src.loc
+																			startx = src.loc
+																			endy = rand(38, 187)
+																			endx = 41
+																		if(SOUTH)
+																			starty = src.loc
+																			startx = src.loc
+																			endy = 187
+																			endx = rand(41, 199)
+																		else
+																			starty = src.loc
+																			startx = src.loc
+																			endy = rand(38, 187)
+																			endx = 199
+
+																	//ASS BLAST USA
+																	visible_message("\red <b>[src]</b> blows their ass off with such force, it turns into an immovable ass!", "\red Holy shit, your butt flies off into the galaxy!")
+																	usr.gib() //don't superfart without thinking of the consequences kids
+																	new /obj/effect/immovablerod/butt(locate(startx, starty, 1), locate(endx, endy, 1))
+																	priority_announce("What the fuck was that?! Holy Jesus it smells!", "Assblast Alert")
+																else if(prob(12))
+																	visible_message("\red <b>[src]</b> rips their ass apart in a massive explosion!", "\red Holy shit, your butt goes supernova!")
+																	explosion(src.loc,0,1,3,flame_range = 3)
+																	usr.gib() // see above comment
+
+*/
 		if ("flap","flaps")
 			if (!src.restrained())
 				message = "<B>[src]</B> flaps its wings."
@@ -118,6 +251,14 @@
 
 		if ("grin","grins")
 			message = "<B>[src]</B> grins."
+			m_type = 1
+
+		if ("insult")
+
+			message = pick("<B>[src]</B> yells, 'I'm going to [verbs_use] you, you [adjective_insult] [nouns_insult]!'",
+			"<B>[src]</B> yells, 'Rend and [verbs_touch], Rend and [verbs_use]!'",
+			"<B>[src]</B> yells, 'You [nouns_insult], I'm going to [verbs_use] you right in the [nouns_body]. <B>JUST YOU WAIT!</B>'",
+			"<B>[src]</B> yells, '<B>You [curse_words]!!</B>'")
 			m_type = 1
 
 		if ("jump","jumps")
