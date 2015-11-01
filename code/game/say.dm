@@ -74,6 +74,8 @@ var/list/freqtospan = list(
 		return "[verb_ask], \"[input]\""
 	if(ending == "!")
 		return "[verb_exclaim], \"[input]\""
+	if(ending == "~")
+		return "[verb_whimsies], \"[input]\""
 
 	return "[verb_say], \"[input]\""
 

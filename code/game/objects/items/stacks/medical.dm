@@ -12,7 +12,7 @@
 	var/heal_brute = 0
 	var/heal_burn = 0
 	var/stop_bleeding = 0
-	var/self_delay = 50
+	var/self_delay = 40
 
 /obj/item/stack/medical/attack(mob/living/M, mob/user)
 
@@ -98,7 +98,7 @@
 	singular_name = "bruise pack"
 	desc = "A theraputic gel pack and bandages designed to treat blunt-force trauma."
 	icon_state = "brutepack"
-	heal_brute = 40
+	heal_brute = 20
 	origin_tech = "biotech=1"
 
 /obj/item/stack/medical/gauze
@@ -127,5 +127,5 @@
 	gender = PLURAL
 	singular_name = "ointment"
 	icon_state = "ointment"
-	heal_burn = 40
+	heal_burn = 20
 	origin_tech = "biotech=1"
