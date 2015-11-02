@@ -12,7 +12,12 @@
 			if(!G.started_as_observer)//If you aghost to do this, KorPhaeron will deadmin you in your sleep.
 				log_admin("[key_name(usr)] checked advanced who in-round")
 			for(var/client/C in clients)
-				var/entry = "\t[C.key]"
+				var/entry = "\t"
+				if(is_whitelisted(C.key))
+					entry += "<font color='navy'>[C.key]</font>"
+				else
+					entry+="[C.key]"
+
 				if(C.holder && C.holder.fakekey)
 					entry += " <i>(as [C.holder.fakekey])</i>"
 				if (isnewplayer(C.mob))

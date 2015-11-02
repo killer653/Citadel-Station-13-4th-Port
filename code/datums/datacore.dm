@@ -295,13 +295,6 @@ var/record_id_num = 1001
 	if(eyes_s)
 		photo.Blend(eyes_s, ICON_OVERLAY)
 
-	/*
-	var/icon/special_color
-	if(special_color)
-		var/icon/sp_one = new/icon("icon" = 'icons/mob/human.dmi', "icon_state" = "[mutant_race]_[g]_s_1")
-		sp_one.Blend("#[special_color[1]]", ICON_MULTIPLY)
-		special_color.Blend(sp_one, ICON_OVERLAY)*/
-
 	var/icon/clothes_s = null
 	switch(H.mind.assigned_role)
 		if("Assistant")
