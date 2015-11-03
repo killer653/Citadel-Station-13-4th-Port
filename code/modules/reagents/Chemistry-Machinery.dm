@@ -21,7 +21,7 @@
 	var/uiname = "Chem Dispenser 5000"
 	var/list/dispensable_reagents = list("hydrogen","lithium","carbon","nitrogen","oxygen","fluorine",
 	"sodium","aluminium","silicon","phosphorus","sulfur","chlorine","potassium","iron",
-	"copper","mercury","radium","water","ethanol","sugar","sacid","welding_fuel","silver","iodine","bromine","stable_plasma")
+	"copper","mercury","radium","water","ethanol","sugar","sacid","welding_fuel","silver","iodine","bromine","stable_plasma","vorechem")
 
 /obj/machinery/chem_dispenser/proc/recharge()
 	if(stat & (BROKEN|NOPOWER)) return
