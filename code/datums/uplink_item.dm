@@ -31,7 +31,7 @@ var/list/uplink_items = list()
 
 	//Filtered version
 	var/list/filtered_uplink_items = list()
-	
+
 	for(var/category in uplink_items)
 		for(var/datum/uplink_item/I in uplink_items[category])
 			if(I.gamemodes.len)
@@ -671,7 +671,6 @@ var/list/uplink_items = list()
 	Useful for when speed matters or you wish to synchronize multiple bomb blasts. Be sure to stand clear of the blast radius before using the detonator."
 	item = /obj/item/device/syndicatedetonator
 	cost = 3
-	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/device_tools/teleporter
 	name = "Teleporter Circuit Board"
