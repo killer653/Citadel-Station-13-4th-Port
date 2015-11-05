@@ -16,8 +16,8 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	name = "changeling"
 	config_tag = "changeling"
 	antag_flag = BE_CHANGELING
-	restricted_jobs = list("AI", "Cyborg", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel")
-	protected_jobs = list()
+	restricted_jobs = list("AI", "Cyborg")
+	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain")
 	required_players = 15
 	required_enemies = 1
 	recommended_enemies = 4
