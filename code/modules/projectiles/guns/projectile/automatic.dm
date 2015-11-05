@@ -118,6 +118,7 @@
 	fire_delay = 2
 	can_suppress = 0
 	burst_size = 0
+	pin = /obj/item/device/firing_pin/implant/loyalty
 
 /obj/item/weapon/gun/projectile/automatic/wt550/ui_action_click()
 	return
@@ -292,6 +293,7 @@
 	origin_tech = "combat=5;materials=1"
 	mag_type = /obj/item/ammo_box/magazine/m556
 	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
+	pin = /obj/item/device/firing_pin/implant/loyalty
 	can_suppress = 0
 	burst_size = 3
 	fire_delay = 1

@@ -82,7 +82,7 @@
 
 // BEGIN_INCLUDE
 #include "_maps\__MAP_DEFINES.dm"
-#include "_maps\tgstation2.dm"
+#include "_maps\metastation.dm"
 #include "code\_compile_options.dm"
 #include "code\hub.dm"
 #include "code\world.dm"
@@ -250,6 +250,7 @@
 #include "code\datums\diseases\_MobProcs.dm"
 #include "code\datums\diseases\anxiety.dm"
 #include "code\datums\diseases\appendicitis.dm"
+#include "code\datums\diseases\assx.dm"
 #include "code\datums\diseases\beesease.dm"
 #include "code\datums\diseases\brainrot.dm"
 #include "code\datums\diseases\cold.dm"
@@ -516,6 +517,7 @@
 #include "code\game\machinery\atmoalter\scrubber.dm"
 #include "code\game\machinery\atmoalter\zvent.dm"
 #include "code\game\machinery\bots\bots.dm"
+#include "code\game\machinery\bots\buttbot.dm"
 #include "code\game\machinery\bots\cleanbot.dm"
 #include "code\game\machinery\bots\ed209bot.dm"
 #include "code\game\machinery\bots\floorbot.dm"

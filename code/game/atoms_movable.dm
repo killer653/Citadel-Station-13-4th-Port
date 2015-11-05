@@ -11,6 +11,7 @@
 	var/verb_ask = "asks"
 	var/verb_exclaim = "exclaims"
 	var/verb_yell = "yells"
+	var/verb_whimsies = "whimsies"
 	var/inertia_dir = 0
 	var/pass_flags = 0
 	glide_size = 8

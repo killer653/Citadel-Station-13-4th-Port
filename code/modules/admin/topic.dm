@@ -995,6 +995,7 @@
 			//M.client = null
 			del(M.client)
 
+
 	//Player Notes
 	else if(href_list["addnote"])
 		var/target_ckey = href_list["addnote"]

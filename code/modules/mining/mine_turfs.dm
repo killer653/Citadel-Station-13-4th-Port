@@ -87,13 +87,13 @@ var/global/list/rockTurfEdgeCache
 /turf/simulated/mineral/random
 	name = "rock"
 	icon_state = "rock"
+	var/mineralChance = 13
 	var/mineralSpawnChanceList = list(
 		"Uranium" = 5, "Diamond" = 1, "Gold" = 10,
 		"Silver" = 12, "Plasma" = 20, "Iron" = 40,
 		"Gibtonite" = 4, "Cave" = 2, "BScrystal" = 1,
 		/*, "Adamantine" =5*/)
 		//Currently, Adamantine won't spawn as it has no uses. -Durandan
-	var/mineralChance = 13
 
 /turf/simulated/mineral/random/New()
 	..()
@@ -132,7 +132,7 @@ var/global/list/rockTurfEdgeCache
 
 /turf/simulated/mineral/random/high_chance
 	icon_state = "rock_highchance"
-	mineralChance = 25
+	mineralChance = 35
 	mineralSpawnChanceList = list(
 		"Uranium" = 35, "Diamond" = 30,
 		"Gold" = 45, "Silver" = 50, "Plasma" = 50,
@@ -144,10 +144,10 @@ var/global/list/rockTurfEdgeCache
 
 /turf/simulated/mineral/random/low_chance
 	icon_state = "rock_lowchance"
-	mineralChance = 6
+	mineralChance = 12
 	mineralSpawnChanceList = list(
 		"Uranium" = 2, "Diamond" = 1, "Gold" = 4,
-		"Silver" = 6, "Plasma" = 15, "Iron" = 40,
+		"Silver" = 6, "Plasma" = 15, "Iron" = 20,
 		"Gibtonite" = 2, "BScrystal" = 1)
 
 /turf/simulated/mineral/random/low_chance/New()
@@ -165,7 +165,7 @@ var/global/list/rockTurfEdgeCache
 /turf/simulated/mineral/uranium
 	name = "uranium deposit"
 	mineralType = /obj/item/weapon/ore/uranium
-	spreadChance = 5
+	spreadChance = 7
 	spread = 1
 	hidden = 1
 	scan_state = "rock_Uranium"
@@ -173,7 +173,7 @@ var/global/list/rockTurfEdgeCache
 /turf/simulated/mineral/diamond
 	name = "diamond deposit"
 	mineralType = /obj/item/weapon/ore/diamond
-	spreadChance = 0
+	spreadChance = 4
 	spread = 1
 	hidden = 1
 	scan_state = "rock_Diamond"
@@ -181,7 +181,7 @@ var/global/list/rockTurfEdgeCache
 /turf/simulated/mineral/gold
 	name = "gold deposit"
 	mineralType = /obj/item/weapon/ore/gold
-	spreadChance = 5
+	spreadChance = 7
 	spread = 1
 	hidden = 1
 	scan_state = "rock_Gold"
@@ -189,7 +189,7 @@ var/global/list/rockTurfEdgeCache
 /turf/simulated/mineral/silver
 	name = "silver deposit"
 	mineralType = /obj/item/weapon/ore/silver
-	spreadChance = 5
+	spreadChance = 10
 	spread = 1
 	hidden = 1
 	scan_state = "rock_Silver"
@@ -198,7 +198,7 @@ var/global/list/rockTurfEdgeCache
 	name = "plasma deposit"
 	icon_state = "rock_Plasma"
 	mineralType = /obj/item/weapon/ore/plasma
-	spreadChance = 8
+	spreadChance = 16
 	spread = 1
 	hidden = 1
 	scan_state = "rock_Plasma"

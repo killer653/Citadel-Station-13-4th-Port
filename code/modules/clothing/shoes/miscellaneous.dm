@@ -38,6 +38,16 @@
 	flags = NOSLIP
 	armor = list(melee = 40, bullet = 30, laser = 25, energy = 25, bomb = 50, bio = 30, rad = 30)
 
+
+/obj/item/clothing/shoes/combat/swat/commissar
+	name = "\improper commissar boots"
+	desc = "Lead from the front, for the Emperor guides your step."
+	permeability_coefficient = 0.01
+	flags = NOSLIP
+	icon_state = "commissar"
+	item_state = "commissar"
+	armor = list(melee = 40, bullet = 30, laser = 25, energy = 25, bomb = 50, bio = 30, rad = 30)
+
 /obj/item/clothing/shoes/sandal
 	desc = "A pair of rather plain, wooden sandals."
 	name = "sandals"
