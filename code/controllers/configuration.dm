@@ -298,6 +298,8 @@
 					guests_allowed = 0
 				if("usewhitelist")
 					config.usewhitelist = 1
+				if("joblist")
+					config.joblist = 1
 				if("allow_metadata")
 					config.allow_Metadata = 1
 				if("kick_inactive")
