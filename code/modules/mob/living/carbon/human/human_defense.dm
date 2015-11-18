@@ -354,10 +354,10 @@ emp_act
 				return 0
 		else
 			if(user == src)
-				user.visible_message("<span class='warning'>[user] grabs his own stomach!</span>", "<span class='warning'>You grab your own stomach!</span>")
+				user.visible_message("<span class='warning'>[user] rubs his own stomach!</span>", "<span class='warning'>You grab your own stomach!</span>")
 				user << "<span class='warning'>You'll need to remove your jumpsuit first!</span>"
 			else
-				user.visible_message("<span class='warning'>[user] grabs [src]'s stomach!</span>", "<span class='warning'>You grab [src]'s stomach!</span>")
+				user.visible_message("<span class='warning'>[user] rubs [src]'s stomach!</span>", "<span class='warning'>You grab [src]'s stomach!</span>")
 				user << "<span class='warning'>You'll need to remove [src]'s jumpsuit first!</span>"
 				src << "<span class='warning'>You feel your stomach being grabbed!</span>"
 			return 0
