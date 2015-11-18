@@ -23,7 +23,7 @@
 
 
 /obj/item/weapon/reagent_containers/pill/attack(mob/M, mob/user, def_zone)
-	if(user.zone_sel.selecting =="head" && user.a_intent == "grab")
+	if(user.zone_sel.selecting =="mouth" && user.a_intent == "grab")
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
 			var/obj/item/organ/internal/stomach/B = H.getorgan(/obj/item/organ/internal/stomach)
