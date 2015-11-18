@@ -26,7 +26,7 @@
 	if(user.zone_sel.selecting =="head" && user.a_intent == "grab")
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
-			var/obj/item/organ/internal/butt/B = H.getorgan(/obj/item/organ/internal/butt)
+			var/obj/item/organ/internal/stomach/B = H.getorgan(/obj/item/organ/internal/stomach)
 			if(B)
 				if(!H.w_uniform)
 					var/buttspace = B.capacity - B.stored
@@ -35,16 +35,16 @@
 							if(1) itemstorevalue += 1 // tiny
 							if(2) itemstorevalue += 2 // small
 							if(3) itemstorevalue += 4 // normal
-							else itemstorevalue = -1 // too big in case we decide to add huge pills(?)
+							else itemstorevalue += 10 // This may fix this.
 					if(itemstorevalue != -1)//if the item is not too big
 						if(B.stored < B.capacity && itemstorevalue <= buttspace) // if the stomach can still hold an item
 							if(H == user)
-								user.visible_message("<span class='notice'>You stuff \the [src] down your throat.</span>", "<span class='warning'>[user] stuffs \the [src] into his own stomach.</span>")
+								user.visible_message("<span class='notice'>You stuff \the [src] into your throat.</span>", "<span class='warning'>[user] stuffs \the [src] into their throat.</span>")
 							else
-								H.visible_message("<span class='warning'>[user] attempts to stuff \the [src] down [H]'s throat...</span>", "<span class='warning'>You attempt to stuff \the [src] inside [H]'s stomach...</span>")
+								H.visible_message("<span class='warning'>[user] attempts to stuff \the [src] inside [H]'s throat...</span>", "<span class='warning'>You attempt to stuff \the [src] down [H]'s throat...</span>")
 								if(!do_mob(user, H))
 									if(H == user)
-										user << "<span class='warning'>You fail to stuff \the [src] in your throat.</span>"
+										user << "<span class='warning'>You fail to stuff \the [src] into your throat.</span>"
 									else
 										user << "<span class='warning'>You fail to stuff \the [src] into [H]'s throat.</span>"
 									return 0
