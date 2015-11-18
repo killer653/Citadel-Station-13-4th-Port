@@ -321,7 +321,7 @@ emp_act
 			updatehealth()
 
 /mob/living/carbon/human/grabbedby(mob/living/user)
-	if(user.zone_sel.selecting == "head")
+	if(user.zone_sel.selecting == "mouth")
 		var/obj/item/organ/internal/stomach/B = src.getorgan(/obj/item/organ/internal/stomach)
 		if(!w_uniform)
 			if(B)
@@ -354,7 +354,7 @@ emp_act
 				return 0
 		else
 			if(user == src)
-				user.visible_message("<span class='warning'>[user] rubs his own stomach!</span>", "<span class='warning'>You grab your own stomach!</span>")
+				user.visible_message("<span class='warning'>[user] rubs their own stomach!</span>", "<span class='warning'>You grab your own stomach!</span>")
 				user << "<span class='warning'>You'll need to remove your jumpsuit first!</span>"
 			else
 				user.visible_message("<span class='warning'>[user] rubs [src]'s stomach!</span>", "<span class='warning'>You grab [src]'s stomach!</span>")
