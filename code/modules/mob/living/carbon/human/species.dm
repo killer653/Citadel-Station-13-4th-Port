@@ -1055,7 +1055,7 @@
 	if(H.check_shields(I.force, "the [I.name]", I, 0, I.armour_penetration))
 		return 0
 
-	if(user.zone_sel.selecting =="head")
+	if(user.zone_sel.selecting =="mouth")
 		if(user.a_intent == "grab")
 			var/obj/item/organ/internal/stomach/B = H.getorgan(/obj/item/organ/internal/stomach)
 			if(B)
