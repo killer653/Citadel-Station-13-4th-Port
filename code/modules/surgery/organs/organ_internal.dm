@@ -18,7 +18,7 @@
 
 	owner = M
 	M.internal_organs |= src
-	loc = M
+	loc = null
 	if(organ_action_name)
 		action_button_name = organ_action_name
 
