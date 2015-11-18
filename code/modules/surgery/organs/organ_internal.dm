@@ -147,7 +147,7 @@
 		S.reagents.add_reagent("????", 5)
 	return S
 
-/obj/item/organ/internal/stomach //Ripped directly from Hippie
+/obj/item/organ/internal/stomach 
 	name = "stomach"
 	desc = "extremely treasured body part"
 	icon_state = "butt" //placeholder
@@ -162,5 +162,5 @@
 	slot_flags = SLOT_HEAD
 	embed_chance = 0 //This is a joke
 	var/loose = 0
-	var/capacity = 2 // this is how much items the butt can hold. 1 means only 1 tiny item, while 2 means 2 tiny items OR 1 small item. You can make it higher if you wish.
+	var/capacity = 2 // this is how much items the butt can hold. 1 means only 1 tiny item, while 2 means 2 tiny items OR 1 small item.
 	var/stored = 0 //how many items are inside
