@@ -18,7 +18,7 @@
 
 	owner = M
 	M.internal_organs |= src
-	loc = null
+	loc = M
 	if(organ_action_name)
 		action_button_name = organ_action_name
 
@@ -146,3 +146,21 @@
 	if(inflamed)
 		S.reagents.add_reagent("????", 5)
 	return S
+
+/obj/item/organ/internal/stomach //Ripped directly from Hippie
+	name = "stomach"
+	desc = "extremely treasured body part"
+	icon_state = "butt" //placeholder
+	item_state = "butt" //placeholder
+	zone = "chest"
+	slot = "butt" //I'm not going to mess with this.
+	throwforce = 0
+	throw_speed = 4
+	force = 0
+	hitsound = 'sound/misc/fart.ogg'
+	body_parts_covered = HEAD
+	slot_flags = SLOT_HEAD
+	embed_chance = 0 //This is a joke
+	var/loose = 0
+	var/capacity = 2 // this is how much items the butt can hold. 1 means only 1 tiny item, while 2 means 2 tiny items OR 1 small item. You can make it higher if you wish.
+	var/stored = 0 //how many items are inside
