@@ -59,7 +59,7 @@
 	var/wikiurl = "http://www.tgstation13.org/wiki" // Default wiki link.
 	var/forumurl = "http://tgstation13.org/phpBB/index.php" //default forums
 	var/rulesurl = "http://www.tgstation13.org/wiki/Rules" // default rules
-	var/githuburl = "https://www.github.com/tgstation/-tg-station" //default github
+	var/githuburl = "https://github.com/Citadel-Station-13/Citadel-Station-13-4th-Port" //Links to the Citadel git
 
 	var/forbid_singulo_possession = 0
 	var/useircbot = 0
