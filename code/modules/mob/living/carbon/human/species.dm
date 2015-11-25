@@ -54,7 +54,7 @@
 	var/darksight = 2
 
 	// species flags. these can be found in flags.dm
-	var/list/specflags = list()
+	var/list/specflags = list(EYECOLOR,HAIR,FACEHAIR,LIPS)
 
 	var/attack_verb = "punch"	// punch-specific attack verb
 	var/sound/attack_sound = 'sound/weapons/punch1.ogg'
@@ -123,9 +123,9 @@
 
 	var/image/standing
 
-	var/g = (H.gender == FEMALE) ? "f" : "m"
+	//var/g = (H.gender == FEMALE) ? "f" : "m"
 
-	if((MUTCOLORS in specflags) || use_skintones)
+	/*if((MUTCOLORS in specflags) || use_skintones)
 		var/image/spec_base
 		var/icon_state_string = "[id]_"
 
@@ -147,7 +147,7 @@
 		else
 			spec_base.color = forced_colour
 
-		standing = spec_base
+		standing = spec_base*/
 
 	if(standing)
 		H.overlays_standing[SPECIES_LAYER]	+= standing
@@ -224,6 +224,9 @@
 
 	var/list/standing	= list()
 
+	if(id!="human")
+		standing += generate_colour_icon('icons/mob/human.dmi',"[H.base_icon_state]_s",H.dna.special_color,add_layer=-BODY_LAYER,overlay_only=1)
+
 	handle_mutant_bodyparts(H)
 
 	// lipstick
@@ -237,11 +240,13 @@
 		var/image/img_eyes_s = image("icon" = 'icons/mob/human_face.dmi', "icon_state" = "[eyes]_s", "layer" = -BODY_LAYER)
 		img_eyes_s.color = "#" + H.eye_color
 		standing	+= img_eyes_s
+
 	//Underwear, Undershirts & Socks
 	if(H.underwear)
 		var/datum/sprite_accessory/underwear/U = underwear_list[H.underwear]
 		if(U)
 			standing	+= image("icon"=U.icon, "icon_state"="[U.icon_state]_s", "layer"=-BODY_LAYER)
+
 	if(H.undershirt)
 		var/datum/sprite_accessory/undershirt/U2 = undershirt_list[H.undershirt]
 		if(U2)
@@ -249,63 +254,136 @@
 				standing	+=	H.wear_female_version(U2.icon_state, U2.icon, BODY_LAYER)
 			else
 				standing	+= image("icon"=U2.icon, "icon_state"="[U2.icon_state]_s", "layer"=-BODY_LAYER)
+
 	if(H.socks)
 		var/datum/sprite_accessory/socks/U3 = socks_list[H.socks]
 		if(U3)
 			standing	+= image("icon"=U3.icon, "icon_state"="[U3.icon_state]_s", "layer"=-BODY_LAYER)
+
+	//Underwear
+	if(H.dna&&H.dna.taur&&!kpcode_cantaur(id))H.dna.taur=0//VERY BAD TEMP FIX
+	//if(H.dna&&H.dna.taur&&H.dna.naga)H.dna.taur=0
+	if(H.underwear&&H.underwear!="Nude"&&H.underwear_active&& (!H.dna||!H.dna.taur) )
+		var/datum/sprite_accessory/underwear/U = underwear_list[H.underwear]
+		if(U)
+			standing	+= image("icon"=U.icon, "icon_state"="[U.icon_state]_s", "layer"=-BODY_LAYER)
+
+	else if((!H.dna || !H.dna.taur) && (!H.wear_suit || !(H.wear_suit.flags_inv&HIDEJUMPSUIT)) && (!H.w_uniform||!(H.w_uniform.body_parts_covered&GROIN)) )
+		if(H.dna&&H.dna.cock)
+			//cock codes here
+			var/list/cock=H.dna.cock
+			var/cock_mod=0
+			var/cock_type=cock["type"]
+			if(cock["has"]==H.dna.COCK_NORMAL)cock_mod="n"
+			else if(cock["has"]==H.dna.COCK_HYPER)cock_mod="h"
+			else if(cock["has"]==H.dna.COCK_DOUBLE)cock_mod="d"
+			if(cock_mod)
+				var/icon/chk=new/icon('icons/mob/cock.dmi')
+				var/list/available_states=chk.IconStates()
+				if(available_states.Find("[cock_type]_c_[cock_mod]"))
+					var/image/cockimtmp	= image("icon"='icons/mob/cock.dmi', "icon_state"="[cock_type]_c_[cock_mod]", "layer"=-BODY_LAYER)
+					var/new_color = "#" + cock["color"]
+					cockimtmp.color = new_color
+					standing += cockimtmp
+				if(available_states.Find("[cock_type]_s_[cock_mod]"))
+					var/image/cockimtmp	= image("icon"='icons/mob/cock.dmi', "icon_state"="[cock_type]_s_[cock_mod]", "layer"=-BODY_LAYER)
+					if(H.dna.special_color[2])
+						var/new_color = "#" + H.dna.special_color[2]
+						cockimtmp.color = new_color
+					standing += cockimtmp
+
+	if(H.dna&&H.dna.taur)
+
+		/*var/taurtype="horse"
+		if(dna.mutantrace=="narky")
+			taurtype="narky"
+		var/image/taurimtmp	= image("icon"='icons/mob/special/taur.dmi', "icon_state"="[taurtype]_overlay", "pixel_x"=-16, "layer"=-BODY_LAYER)
+		*/
+		var/taur_state="[kpcode_cantaur(H.dna.mutantrace())]_overlay"
+		if(H.vore_womb_datum.has_people()||H.vore_stomach_datum.has_people())
+			taur_state+="_f"
+		standing += generate_colour_icon('icons/mob/special/taur.dmi',"[taur_state]",H.dna.special_color,offset_x=-16,add_layer=-BODY_LAYER)
+	/*
+	if(H.dna&&H.dna.naga)
+		standing += generate_colour_icon('icons/mob/special/naga.dmi',"body",H.dna.special_color,offset_x=-16,offset_y=-16,add_layer=-BODY_LAYER)
+
+	if(H.test_var_to_remove)
+		standing += generate_colour_icon('icons/mob/special/test.dmi',"",H.dna.special_color,add_layer=-BODY_LAYER)
+		*/
+
 	if(standing.len)
 		H.overlays_standing[BODY_LAYER] = standing
+
 	H.apply_overlay(BODY_LAYER)
+
 	return
+
 /datum/species/proc/handle_mutant_bodyparts(mob/living/carbon/human/H, forced_colour)
 	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
 	var/list/relevent_layers = list(BODY_BEHIND_LAYER, BODY_ADJ_LAYER, BODY_FRONT_LAYER)
 	var/list/standing	= list()
+
 	H.remove_overlay(BODY_BEHIND_LAYER)
 	H.remove_overlay(BODY_ADJ_LAYER)
 	H.remove_overlay(BODY_FRONT_LAYER)
+
 	if(!mutant_bodyparts)
 		return
+
 	if("tail_lizard" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
 			bodyparts_to_add -= "tail_lizard"
+
 	if("waggingtail_lizard" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
 			bodyparts_to_add -= "waggingtail_lizard"
 		else if ("tail_lizard" in mutant_bodyparts)
 			bodyparts_to_add -= "waggingtail_lizard"
+
 	if("tail_human" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
 			bodyparts_to_add -= "tail_human"
+
+
 	if("waggingtail_human" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
 			bodyparts_to_add -= "waggingtail_human"
 		else if ("tail_human" in mutant_bodyparts)
 			bodyparts_to_add -= "waggingtail_human"
+
 	if("spines" in mutant_bodyparts)
 		if(!H.dna.features["spines"] || H.dna.features["spines"] == "None" || H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
 			bodyparts_to_add -= "spines"
+
 	if("waggingspines" in mutant_bodyparts)
 		if(!H.dna.features["spines"] || H.dna.features["spines"] == "None" || H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
 			bodyparts_to_add -= "waggingspines"
 		else if ("tail" in mutant_bodyparts)
 			bodyparts_to_add -= "waggingspines"
+
 	if("snout" in mutant_bodyparts) //Take a closer look at that snout!
 		if((H.wear_mask && (H.wear_mask.flags_inv & HIDEFACE)) || (H.head && (H.head.flags_inv & HIDEFACE)))
 			bodyparts_to_add -= "snout"
+
 	if("frills" in mutant_bodyparts)
 		if(!H.dna.features["frills"] || H.dna.features["frills"] == "None" || H.head && (H.head.flags_inv & HIDEEARS))
 			bodyparts_to_add -= "frills"
+
 	if("horns" in mutant_bodyparts)
 		if(!H.dna.features["horns"] || H.dna.features["horns"] == "None" || H.head && (H.head.flags & BLOCKHAIR) || (H.wear_mask && (H.wear_mask.flags & BLOCKHAIR)))
 			bodyparts_to_add -= "horns"
+
 	if("ears" in mutant_bodyparts)
 		if(!H.dna.features["ears"] || H.dna.features["ears"] == "None" || H.head && (H.head.flags & BLOCKHAIR) || (H.wear_mask && (H.wear_mask.flags & BLOCKHAIR)))
 			bodyparts_to_add -= "ears"
+
 	if(!bodyparts_to_add)
 		return
+
 	var/g = (H.gender == FEMALE) ? "f" : "m"
+
 	var/image/I
+
 	for(var/layer in relevent_layers)
 		for(var/bodypart in bodyparts_to_add)
 			var/datum/sprite_accessory/S
@@ -332,19 +410,26 @@
 					S = ears_list[H.dna.features["ears"]]
 				if("body_markings")
 					S = body_markings_list[H.dna.features["body_markings"]]
+
 			if(!S || S.icon_state == "none")
 				continue
+
 			//A little rename so we don't have to use tail_lizard or tail_human when naming the sprites.
 			if(bodypart == "tail_lizard" || bodypart == "tail_human")
 				bodypart = "tail"
 			else if(bodypart == "waggingtail_lizard" || bodypart == "waggingtail_human")
 				bodypart = "waggingtail"
+
+
 			var/icon_string
+
 			if(S.gender_specific)
 				icon_string = "[id]_[g]_[bodypart]_[S.icon_state]_[layer]"
 			else
 				icon_string = "[id]_m_[bodypart]_[S.icon_state]_[layer]"
+
 			I = image("icon" = 'icons/mob/mutant_bodyparts.dmi', "icon_state" = icon_string, "layer" =- layer)
+
 			if(!(H.disabilities & HUSK))
 				if(!forced_colour)
 					switch(S.color_src)
@@ -362,29 +447,39 @@
 				else
 					I.color = forced_colour
 			standing += I
+
 			if(S.hasinner)
 				if(S.gender_specific)
 					icon_string = "[id]_[g]_[bodypart]inner_[S.icon_state]_[layer]"
 				else
 					icon_string = "[id]_m_[bodypart]inner_[S.icon_state]_[layer]"
+
 				I = image("icon" = 'icons/mob/mutant_bodyparts.dmi', "icon_state" = icon_string, "layer" =- layer)
+
 				standing += I
+
 		H.overlays_standing[layer] = standing.Copy()
 		standing = list()
+
 	H.apply_overlay(BODY_BEHIND_LAYER)
 	H.apply_overlay(BODY_ADJ_LAYER)
 	H.apply_overlay(BODY_FRONT_LAYER)
+
 /datum/species/proc/spec_life(mob/living/carbon/human/H)
 	return
+
 /datum/species/proc/spec_death(gibbed, mob/living/carbon/human/H)
 	return
+
 /datum/species/proc/auto_equip(mob/living/carbon/human/H)
 	// handles the equipping of species-specific gear
 	return
+
 /datum/species/proc/can_equip(obj/item/I, slot, disable_warning, mob/living/carbon/human/H)
 	if(slot in no_equip)
 		if(!(type in I.species_exception))
 			return 0
+
 	switch(slot)
 		if(slot_l_hand)
 			if(H.l_hand)
@@ -534,18 +629,25 @@
 					return 1
 			return 0
 	return 0 //Unsupported slot
+
 /datum/species/proc/before_equip_job(datum/job/J, mob/living/carbon/human/H)
 	return
+
 /datum/species/proc/after_equip_job(datum/job/J, mob/living/carbon/human/H)
 	return
+
 /datum/species/proc/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	return 0
+
 /datum/species/proc/handle_speech(message, mob/living/carbon/human/H)
 	return message
+
 ////////
 	//LIFE//
 	////////
+
 /datum/species/proc/handle_chemicals_in_body(mob/living/carbon/human/H)
+
 	//The fucking FAT mutation is the dumbest shit ever. It makes the code so difficult to work with
 	if(H.disabilities & FAT)
 		if(H.overeatduration < 100)
@@ -559,6 +661,7 @@
 			H.disabilities |= FAT
 			H.update_inv_w_uniform()
 			H.update_inv_wear_suit()
+
 	// nutrition decrease and satiety
 	if (H.nutrition > 0 && H.stat != DEAD)
 		var/hunger_rate = HUNGER_FACTOR
@@ -570,12 +673,15 @@
 				H.Jitter(5)
 			hunger_rate = 3 * HUNGER_FACTOR
 		H.nutrition = max (0, H.nutrition - hunger_rate)
+
+
 	if (H.nutrition > NUTRITION_LEVEL_FULL)
 		if(H.overeatduration < 600) //capped so people don't take forever to unfat
 			H.overeatduration++
 	else
 		if(H.overeatduration > 1)
 			H.overeatduration -= 2 //doubled the unfat rate
+
 	//metabolism change
 	if(H.nutrition > NUTRITION_LEVEL_FAT)
 		H.metabolism_efficiency = 1
@@ -591,8 +697,11 @@
 		if(H.metabolism_efficiency == 1.25)
 			H << "<span class='notice'>You no longer feel vigorous.</span>"
 		H.metabolism_efficiency = 1
+
 	H.updatehealth()
+
 	return
+
 /datum/species/proc/handle_vision(mob/living/carbon/human/H)
 	if( H.stat == DEAD )
 		H.sight |= (SEE_TURFS|SEE_MOBS|SEE_OBJS)
@@ -605,15 +714,19 @@
 			H.sight &= ~SEE_MOBS
 		if(!(SEE_OBJS & H.permanent_sight_flags))
 			H.sight &= ~SEE_OBJS
+
 		if(H.remote_view)
 			H.sight |= SEE_TURFS
 			H.sight |= SEE_MOBS
 			H.sight |= SEE_OBJS
+
 		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 8 : darksight
 		var/see_temp = H.see_invisible
 		H.see_invisible = invis_sight
+
 		if(H.seer)
 			H.see_invisible = SEE_INVISIBLE_OBSERVER
+
 		if(H.glasses)
 			if(istype(H.glasses, /obj/item/clothing/glasses))
 				var/obj/item/clothing/glasses/G = H.glasses
@@ -622,8 +735,10 @@
 				H.see_invisible = min(G.invis_view, H.see_invisible)
 		if(H.druggy)	//Override for druggy
 			H.see_invisible = see_temp
+
 		if(H.see_override)	//Override all
 			H.see_invisible = H.see_override
+
 		//	This checks how much the mob's eyewear impairs their vision
 		if(H.tinttotal >= TINT_IMPAIR)
 			if(tinted_weldhelh)
@@ -631,6 +746,7 @@
 					H.eye_blind = max(H.eye_blind, 1)
 				if(H.client)
 					H.client.screen += global_hud.darkMask
+
 		if(H.blind)
 			if(H.eye_blind)
 				H.throw_alert("blind")
@@ -638,8 +754,10 @@
 			else
 				H.clear_alert("blind")
 				H.blind.layer = 0
+
 		if(!H.client)//no client, no screen to update
 			return 1
+
 		if( H.disabilities & NEARSIGHT && !istype(H.glasses, /obj/item/clothing/glasses/regular) )
 			H.client.screen += global_hud.vimpaired
 		if(H.eye_blurry)			H.client.screen += global_hud.blurry
@@ -648,10 +766,14 @@
 			H.throw_alert("high")
 		else
 			H.clear_alert("high")
+
+
 		if(H.eye_stat > 20)
 			if(H.eye_stat > 30)	H.client.screen += global_hud.darkMask
 			else				H.client.screen += global_hud.vimpaired
+
 	return 1
+
 /datum/species/proc/handle_hud_icons(mob/living/carbon/human/H)
 	if(H.healths)
 		if(H.stat == DEAD)
@@ -670,6 +792,7 @@
 						if(20 to 40)			H.healths.icon_state = "health4"
 						if(0 to 20)				H.healths.icon_state = "health5"
 						else					H.healths.icon_state = "health6"
+
 	if(H.healthdoll)
 		H.healthdoll.overlays.Cut()
 		if(H.stat == DEAD)
@@ -694,6 +817,7 @@
 					icon_num = 0
 				if(icon_num)
 					H.healthdoll.overlays += image('icons/mob/screen_gen.dmi',"[L.name][icon_num]")
+
 	switch(H.nutrition)
 		if(NUTRITION_LEVEL_FULL to INFINITY)
 			H.throw_alert("nutrition","fat")
@@ -703,15 +827,20 @@
 			H.throw_alert("nutrition","hungry")
 		else
 			H.throw_alert("nutrition","starving")
+
 	return 1
+
 /datum/species/proc/handle_mutations_and_radiation(mob/living/carbon/human/H)
+
 	if(!(RADIMMUNE in specflags))
 		if(H.radiation)
 			if (H.radiation > 100)
 				H.Weaken(10)
 				H << "<span class='danger'>You feel weak.</span>"
 				H.emote("collapse")
+
 			switch(H.radiation)
+
 				if(50 to 75)
 					if(prob(5))
 						H.Weaken(3)
@@ -724,6 +853,7 @@
 								H.facial_hair_style = "Shaved"
 								H.hair_style = "Bald"
 								H.update_hair()
+
 				if(75 to 100)
 					if(prob(1))
 						H << "<span class='danger'>You mutate!</span>"
@@ -732,17 +862,22 @@
 						H.domutcheck()
 		return 0
 	return 1
+
 ////////////////
 // MOVE SPEED //
 ////////////////
+
 /datum/species/proc/movement_delay(mob/living/carbon/human/H)
 	var/mspeed = 0
+
 	if(!(H.status_flags & IGNORESLOWDOWN))
+
 		var/grav = has_gravity(H)
 		var/hasjetpack = 0
 		if(!grav)
 			var/obj/item/weapon/tank/jetpack/J
 			var/obj/item/weapon/tank/jetpack/P
+
 			if(istype(H.back, /obj/item/weapon/tank/jetpack))
 				J = H.back
 			if(istype(H.wear_suit,/obj/item/clothing/suit/space/hardsuit)) //copypasta but faster implementation currently
@@ -754,34 +889,45 @@
 			else if(P)
 				if(P.allow_thrust(0.01, H))
 					hasjetpack = 1
+
 			mspeed = -1 - hasjetpack
+
 		if(grav || !hasjetpack)
 			var/health_deficiency = (100 - H.health + H.staminaloss)
 			if(health_deficiency >= 40)
 				mspeed += (health_deficiency / 25)
+
 			var/hungry = (500 - H.nutrition) / 5	//So overeat would be 100 and default level would be 80
 			if(hungry >= 70)
 				mspeed += hungry / 50
+
 			if(H.wear_suit)
 				mspeed += H.wear_suit.slowdown
 			if(H.shoes)
 				mspeed += H.shoes.slowdown
 			if(H.back)
 				mspeed += H.back.slowdown
+
 			if((H.disabilities & FAT))
 				mspeed += 1.5
 			if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
 				mspeed += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
+
 			mspeed += speedmod
+
 		if(grav)
 			if(H.status_flags & GOTTAGOFAST)
 				mspeed -= 1
+
 			if(H.status_flags & GOTTAGOREALLYFAST)
 				mspeed -= 2
+
 	return mspeed
+
 //////////////////
 // ATTACK PROCS //
 //////////////////
+
 /datum/species/proc/spec_attack_hand(mob/living/carbon/human/M, mob/living/carbon/human/H)
 	if(!istype(M)) //sanity check for drones.
 		return
@@ -789,7 +935,9 @@
 		add_logs(M, H, "attempted to touch")
 		H.visible_message("<span class='warning'>[M] attempted to touch [H]!</span>")
 		return 0
+
 	var/datum/martial_art/attacker_style = M.martial_art
+
 	switch(M.a_intent)
 		if("help")
 			if(H.health >= 0)
@@ -799,30 +947,40 @@
 				return 1
 			else
 				M.do_cpr(H)
+
 		if("grab")
 			if(attacker_style && attacker_style.grab_act(M,H))
 				return 1
 			else
 				H.grabbedby(M)
 				return 1
+
 		if("harm")
 			if(attacker_style && attacker_style.harm_act(M,H))
 				return 1
 			else
 				M.do_attack_animation(H)
+
 				var/atk_verb = M.dna.species.attack_verb
 				if(H.lying)
 					atk_verb = "kick"
+
 				var/damage = rand(0, 9) + M.dna.species.punchmod
+
 				if(!damage)
 					playsound(H.loc, M.dna.species.miss_sound, 25, 1, -1)
 					H.visible_message("<span class='warning'>[M] has attempted to [atk_verb] [H]!</span>")
 					return 0
+
+
 				var/obj/item/organ/limb/affecting = H.get_organ(ran_zone(M.zone_sel.selecting))
 				var/armor_block = H.run_armor_check(affecting, "melee")
+
 				playsound(H.loc, M.dna.species.attack_sound, 25, 1, -1)
+
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
+
 				H.apply_damage(damage, BRUTE, affecting, armor_block)
 				add_logs(M, H, "punched")
 				if((H.stat != DEAD) && damage >= 9)
@@ -838,6 +996,7 @@
 			else
 				M.do_attack_animation(H)
 				add_logs(M, H, "disarmed")
+
 				if(H.w_uniform)
 					H.w_uniform.add_fingerprint(M)
 				var/obj/item/organ/limb/affecting = H.get_organ(ran_zone(M.zone_sel.selecting))
@@ -849,13 +1008,16 @@
 					H.apply_effect(2, WEAKEN, H.run_armor_check(affecting, "melee", "Your armor prevents your fall!", "Your armor softens your fall!"))
 					H.forcesay(hit_appends)
 					return
+
 				var/talked = 0	// BubbleWrap
+
 				if(randn <= 60)
 					//BubbleWrap: Disarming breaks a pull
 					if(H.pulling)
 						H.visible_message("<span class='warning'>[M] has broken [H]'s grip on [H.pulling]!</span>")
 						talked = 1
 						H.stop_pulling()
+
 					//BubbleWrap: Disarming also breaks a grab - this will also stop someone being choked, won't it?
 					if(istype(H.l_hand, /obj/item/weapon/grab))
 						var/obj/item/weapon/grab/lgrab = H.l_hand
@@ -892,7 +1054,8 @@
 		user.do_attack_animation(H)
 	if(H.check_shields(I.force, "the [I.name]", I, 0, I.armour_penetration))
 		return 0
-	if(user.zone_sel.selecting =="head")
+
+	if(user.zone_sel.selecting =="mouth")
 		if(user.a_intent == "grab")
 			var/obj/item/organ/internal/stomach/B = H.getorgan(/obj/item/organ/internal/stomach)
 			if(B)
@@ -940,19 +1103,12 @@
 						return 0
 				else
 					if(H == user)
-						user.drop_item()
-						B.contents += I
-						I.add_blood(H)
-						B.stored += I.itemstorevalue
-						user.visible_message("<span class='warning'>[user] shoves [I] down into their throat.</span>", "<span class='warning'>You shove [I] down your own throat.</span>")
-						return 1
+						user << "<span class='warning'>You'll need to remove your jumpsuit first.</span>"
 					else
-						user.drop_item()
-						B.contents += I
-						I.add_blood(H)
-						B.stored += I.itemstorevalue
-						user.visible_message("<span class='warning'>[user] shoves [I] down [H]'s throat.</span>", "<span class='warning'>You shove [I] down [H]'s throat.</span>")
-					return 1
+						user << "<span class='warning'>You'll need to remove [H]'s jumpsuit first.</span>"
+						H << "<span class='warning'>You feel your stomach being poked with \the [I]!</span>"
+						user.visible_message("<span class='warning'>[user] pokes [H]'s butt with \the [I]!</span>", "<span class='warning'>You poke [H]'s butt with \the [I]!</span>")
+					return 0
 			else
 				if(H == user)
 					user << "<span class='warning'>You have no stomach!</span>"
